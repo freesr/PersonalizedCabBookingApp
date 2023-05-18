@@ -1,16 +1,10 @@
-package com.example.loginapplication;
-
-import org.json.JSONException;
+package com.example.ridesharing;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public class ApiConnection {
@@ -21,7 +15,7 @@ public class ApiConnection {
         URL url = new URL(apiUrl);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.getDoOutput();
-        urlConnection.setRequestMethod("POST");
+        urlConnection.setRequestMethod("PUT");
         urlConnection.setRequestProperty("Content-Type", "application/json");
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "utf-8"));
         writer.write(jsonstring);

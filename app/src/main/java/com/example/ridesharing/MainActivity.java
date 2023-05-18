@@ -1,4 +1,4 @@
-package com.example.loginapplication;
+package com.example.ridesharing;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,17 +15,6 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -123,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
-    private class WebService extends AsyncTask<String,Void,String> {
+    public static class WebService extends AsyncTask<String,Void,String> {
 
         @Override
         protected void onPreExecute() {
@@ -139,12 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject jsonbd = new JSONObject(jsonobj.getString("body"));
                 String toastMsg = "Login Successful";
                 if (jsonbd.getString("message").equals("Success")) {
-                    Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://umbc.edu/"));
-                    startActivity(browserIntent);
+//                    Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
+//                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://umbc.edu/"));
+//                    startActivity(browserIntent);
                 } else {
-                    toastMsg = ApiConnection.sendToastError(jsonbd.getString("data"));
-                    Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
+//                    toastMsg = ApiConnection.sendToastError(jsonbd.getString("data"));
+//                    Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
                 }
 
             } catch (JSONException ex) {

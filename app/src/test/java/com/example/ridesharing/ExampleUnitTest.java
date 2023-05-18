@@ -1,4 +1,4 @@
-package com.example.loginapplication;
+package com.example.ridesharing;
 
 import org.junit.Test;
 
