@@ -15,7 +15,11 @@ public class ApiConnection {
         URL url = new URL(apiUrl);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.getDoOutput();
-        urlConnection.setRequestMethod("PUT");
+        urlConnection.setRequestMethod("POST");
+        if(apiUrl.contains("updatelocation")){
+            urlConnection.setRequestMethod("PUT");
+        }
+
         urlConnection.setRequestProperty("Content-Type", "application/json");
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "utf-8"));
         writer.write(jsonstring);

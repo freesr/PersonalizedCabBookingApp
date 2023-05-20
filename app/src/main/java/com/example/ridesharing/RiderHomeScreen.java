@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class riderMainScreen extends AppCompatActivity {
+public class RiderHomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rider_main_screen);
+        setContentView(R.layout.activity_rider_home_screen);
     }
 }

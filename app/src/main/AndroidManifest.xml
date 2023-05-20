@@ -13,10 +13,16 @@
         android:icon="@drawable/download"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LoginApplication"
+        android:theme="@style/Theme.RideSharingApp"
         tools:targetApi="31" >
         <activity
-            android:name=".riderMainScreen"
+            android:name=".RiderHomeScreen"
+            android:exported="false" />
+        <activity
+            android:name=".DriverMainScreen"
+            android:exported="false" />
+        <activity
+            android:name=".RiderMapScreen"
             android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
@@ -31,14 +37,14 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyCXti4hYs6ZOC4IVh6PQ3zgpWHqa0Ash9Q" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity
-            android:name=".DriverMainScreen"
+            android:name=".InitalPage"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

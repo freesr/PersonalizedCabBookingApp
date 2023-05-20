@@ -9,22 +9,21 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
 
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 
 public class DriverMainScreen extends AppCompatActivity implements LocationListener {
-    private static final int PERMISSIONS_REQUEST_LOCATION = 1;
+    private static final int PERMISSIONS_REQUEST_LOCATION = 1001;
     private LocationManager locationManager;
     String[] parameters = new String[3];
     private boolean isTaskRunning = false;
+    private Button riderScreen;
 
     DriverMainScreen.WebService temp;
 
@@ -34,12 +33,25 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
         setContentView(R.layout.activity_driver_main_screen);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         parameters[0] = "1";
+        riderScreen =findViewById(R.id.rider);
+        riderScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DriverMainScreen.this, RiderMapScreen.class);
+                startActivity(intent);
+            }
+        });
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Request the permission if it hasn't been granted
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
             return;
         }
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
+            return;
+        }
+
         // If permission is already granted, request location updates
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -52,9 +64,7 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
-
-
-
+        //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, this);
 
     }
 
@@ -69,7 +79,7 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
         if (!isTaskRunning) {
             temp = new DriverMainScreen.WebService();
             temp.execute(parameters);
-            isTaskRunning = true;
+            isTaskRunning = false;
         }
 
 //        temp  = new DriverMainScreen.WebService();
