@@ -13,7 +13,7 @@ public class DirectionsAPI {
 
     private static final String API_KEY = "AIzaSyDTHE0iyVZ7VQdBxpz-vs3S0TjHFRCg-AA";
 
-    private static String[] getDistanceAndTime(double pickupLatitude, double pickupLongitude, double dropoffLatitude, double dropoffLongitude) {
+    static String[] getDistanceAndTime(String pickupLatitude, String pickupLongitude, String dropoffLatitude, String dropoffLongitude) {
         try {
             URL url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=" +
                     pickupLatitude + "," + pickupLongitude +
