@@ -6,4 +6,65 @@
     android:layout_height="match_parent"
     tools:context=".RiderHomeScreen">
 
+    <TextView
+        android:id="@+id/driverStatus"
+        android:layout_width="77dp"
+        android:layout_height="35dp"
+        android:text="Online"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.239"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <TextView
+        android:id="@+id/statusView"
+        android:layout_width="77dp"
+        android:layout_height="35dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.664"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="245dp"
+        android:layout_height="256dp"
+        android:id="@+id/fragmentLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.41"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.276">
+
+        <fragment
+            android:id="@+id/autocomplete_fragment1"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="215dp"
+            android:layout_height="104dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="63dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--        <LinearLayout-->
+<!--            android:id="@+id/ll1"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40sp"-->
+<!--            android:layout_marginLeft="10sp"-->
+<!--            android:layout_marginRight="10sp"-->
+<!--            android:background="@android:color/white">-->
+<!--            <fragment-->
+<!--                android:id="@+id/autocomplete_fragment1"-->
+<!--                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"/>-->
+<!--        </LinearLayout>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

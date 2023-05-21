@@ -26,7 +26,7 @@ public class InitalPage extends AppCompatActivity implements View.OnClickListene
         if (v.getId() == R.id.driver) {
             intent = new Intent(InitalPage.this, DriverMainScreen.class);
         }else if(v.getId() == R.id.rider){
-            intent = new Intent(InitalPage.this, RiderMapScreen.class);
+            intent = new Intent(InitalPage.this, RiderHomeScreen.class);
         }
         startActivity(intent);
     }
