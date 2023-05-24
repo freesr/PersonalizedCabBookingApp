@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -23,13 +24,19 @@ import org.json.JSONObject;
 public class DriverMainScreen extends AppCompatActivity implements LocationListener {
     private static final int PERMISSIONS_REQUEST_LOCATION = 1001;
     private LocationManager locationManager;
-    String[] parameters = new String[3];
+    String[] parameters = new String[4];
+    String[] newparameters = new String[2];
     private boolean isTaskRunning = false;
     private Button riderScreen;
     Switch status;
     Boolean statusState = false;
 
     DriverMainScreen.WebService temp;
+    DriverMainScreen.StatusUpdateWebService temp2;
+    Location liveLocation;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    String driverStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,7 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
         setContentView(R.layout.activity_driver_main_screen);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         parameters[0] = "1";
+        newparameters[0] = "1";
         riderScreen =findViewById(R.id.rider);
         riderScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,11 +82,34 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
                         return;
                     }
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, DriverMainScreen.this);
+                    driverStatus = "Online";
                 } else {
                     locationManager.removeUpdates(DriverMainScreen.this);
+                    driverStatus = "Offline";
+
+
                 }
+                newparameters[1] = driverStatus;
+                temp2 = new DriverMainScreen.StatusUpdateWebService();
+                temp2.execute(newparameters);
             }
         });
+
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                parameters[1] = String.valueOf(liveLocation.getLatitude());
+                parameters[2] = String.valueOf(liveLocation.getLongitude());
+                if (!isTaskRunning) {
+                    temp = new DriverMainScreen.WebService();
+                    temp.execute(parameters);
+                    isTaskRunning = false;
+                }
+                handler.postDelayed(this, 5000);
+            }
+        };
+        handler.post(runnable);
     }
 
     @Override
@@ -87,13 +118,8 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
 //        if (temp != null && temp.getStatus() == AsyncTask.Status.RUNNING) {
 //            temp.cancel(true);
 //        }
-        parameters[1] = String.valueOf(location.getLatitude());
-        parameters[2] = String.valueOf(location.getLongitude());
-        if (!isTaskRunning) {
-            temp = new DriverMainScreen.WebService();
-            temp.execute(parameters);
-            isTaskRunning = false;
-        }
+        liveLocation = location;
+
 
 //        temp  = new DriverMainScreen.WebService();
 //        temp.execute(parameters);
@@ -115,6 +141,7 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
         protected void onPostExecute(String result) {
             // Process the result as needed
             isTaskRunning = false;
+
         }
 
 
@@ -130,6 +157,41 @@ public class DriverMainScreen extends AppCompatActivity implements LocationListe
                 json.put("driverId", driverId);
                 json.put("latitude", latitude);
                 json.put("longitude", longitude);
+                String jsonstring = json.toString();
+                return ApiConnection.sendRequest(jsonstring, apiUrl);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    private class StatusUpdateWebService extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            // Process the result as needed
+            isTaskRunning = false;
+        }
+
+
+        @Override
+        protected String doInBackground(String... inputs) {
+            String apiUrl = "https://36dpdol4tg.execute-api.us-east-1.amazonaws.com/prod/rideservice/updatedriverstatus";
+            JSONObject json = new JSONObject();
+            String driverId = inputs[0];
+            String driverstatus = inputs[1];
+
+            try {
+                json.put("driverId", driverId);
+                json.put("driverstatus", driverstatus);
+
                 String jsonstring = json.toString();
                 return ApiConnection.sendRequest(jsonstring, apiUrl);
 
