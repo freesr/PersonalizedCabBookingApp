@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -25,6 +26,7 @@ public class RideDetails extends AppCompatActivity implements View.OnClickListen
 
     String rideId;
     TextView location,price;
+    EditText customPrice;
     Button pgmapsBtn,dgmapsBtn,tripEndBtn;
     String rideDistance,pickupLongitude,dropoffLatitude,dropoffLongitude,dropoffPlace,pickupLatitude,
             estimatedTime,ridePrice,pickupPlace;
@@ -50,6 +52,7 @@ public class RideDetails extends AppCompatActivity implements View.OnClickListen
         temp = new RideDetails.RideDetailsWebService();
         temp.execute(rideId);
         tripEndBtn = findViewById(R.id.endTrip);
+        customPrice = findViewById(R.id.customPrice);
 
 
 
@@ -75,6 +78,14 @@ public class RideDetails extends AppCompatActivity implements View.OnClickListen
             if (mapIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(mapIntent);
             }
+        }
+        if(v.getId() == R.id.endTrip){
+            String cp = customPrice.getText().toString();
+            if(cp != ""){
+                ridePrice = cp;
+            }
+            RideDetails.CloseRideWebService temp2 = new CloseRideWebService();
+            temp2.equals(ridePrice);
         }
     }
 
@@ -124,6 +135,54 @@ public class RideDetails extends AppCompatActivity implements View.OnClickListen
 
             try {
                 json.put("rideId", inputs[0]);
+                String jsonstring = json.toString();
+                return ApiConnection.sendRequest(jsonstring, apiUrl);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    private class CloseRideWebService extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            JSONObject jsonResponse = null;
+            try {
+                if(result != null){
+                    jsonResponse = new JSONObject(result);
+                    int statusCode = jsonResponse.getInt("statusCode");
+                    if(statusCode == 200){
+                        Toast.makeText(RideDetails.this,  "Ride Completed ", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Intent i = new Intent(RideDetails.this,DriverMainScreen.class);
+                    startActivity(i);
+                }
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... inputs) {
+            String apiUrl = "https://36dpdol4tg.execute-api.us-east-1.amazonaws.com/prod/rideservice/ridecomplete";
+            JSONObject json = new JSONObject();
+
+            try {
+                json.put("ridePrice", inputs[0]);
+                json.put("rideId", rideId);
                 String jsonstring = json.toString();
                 return ApiConnection.sendRequest(jsonstring, apiUrl);
 

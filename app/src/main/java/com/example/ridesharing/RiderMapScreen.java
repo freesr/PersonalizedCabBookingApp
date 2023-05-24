@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -193,6 +195,12 @@ public class RiderMapScreen extends AppCompatActivity implements OnMapReadyCallb
                     //String driverId = bodyJson.getJSONObject("DriverId").getString("S");
                     String longitude = bodyJson.getJSONObject("Longitude").getString("S");
                     String latitude = bodyJson.getJSONObject("Latitude").getString("S");
+                    String Driverstatus = bodyJson.getJSONObject("RideStatus").getString("S");
+                    if(Driverstatus.equals("Online") || Driverstatus.equals("Offline")){
+                        Toast.makeText(RiderMapScreen.this, "Ride Completed", Toast.LENGTH_SHORT).show();
+                        Intent nint = new Intent(RiderMapScreen.this,RiderHomeScreen.class);
+                        startActivity(nint);
+                    }
                     latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                     removeMarkersByType("Driver");
                     driverMarker = mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.cab))
