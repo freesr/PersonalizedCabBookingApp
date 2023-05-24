@@ -2,6 +2,7 @@ package com.example.ridesharing;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
@@ -57,6 +58,7 @@ public class RiderHomeScreen extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_home_screen);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Places.initialize(getApplicationContext(), "AIzaSyDTHE0iyVZ7VQdBxpz-vs3S0TjHFRCg-AA");
 
         AutocompleteSupportFragment pickupFragment = (AutocompleteSupportFragment)
@@ -175,7 +177,7 @@ public class RiderHomeScreen extends AppCompatActivity implements View.OnClickLi
                     //String driverId = bodyJson.getJSONObject("DriverId").getString("S");
                     String driverStatus = bodyJson.getJSONObject("DriverStatus").getString("S");
                     stView.setText(driverStatus.toString());
-                    if(driverStatus.equals("true")){
+                    if(driverStatus.equals("Online")){
                         bookBtn.setVisibility(View.VISIBLE);
                         mainlayout.setVisibility(LinearLayout.VISIBLE);
                     }else{
