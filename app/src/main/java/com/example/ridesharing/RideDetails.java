@@ -162,7 +162,6 @@ public class RideDetails extends AppCompatActivity implements View.OnClickListen
                     if(statusCode == 200){
                         Toast.makeText(RideDetails.this,  "Ride Completed ", Toast.LENGTH_SHORT).show();
                     }
-
                     Intent i = new Intent(RideDetails.this,DriverMainScreen.class);
                     startActivity(i);
                 }

@@ -86,7 +86,6 @@ public class RiderMapScreen extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void run() {
                  temp = new RiderMapScreen.WebService();
-                System.out.println("Hiii        ");
                 temp.execute(parameters);
                 handler.postDelayed(this, 5000);
             }

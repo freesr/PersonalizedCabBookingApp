@@ -225,23 +225,7 @@ public class RiderHomeScreen extends AppCompatActivity implements View.OnClickLi
         protected void onPostExecute(String result) {
             JSONObject jsonResponse = null;
             try {
-//                if(result != null){
-//                    jsonResponse = new JSONObject(result);
-//                    int statusCode = jsonResponse.getInt("statusCode");
-//                    String responseBody = jsonResponse.getString("body");
-//
-//                    JSONObject bodyJson = new JSONObject(responseBody);
-//                    //String driverId = bodyJson.getJSONObject("DriverId").getString("S");
-//                    Boolean driverStatus = bodyJson.getJSONObject("Status").getBoolean("BOOL");
-//                    stView.setText(driverStatus.toString());
-//                    if(driverStatus){
-//                        bookBtn.setVisibility(View.VISIBLE);
-//                        mainlayout.setVisibility(LinearLayout.VISIBLE);
-//                    }else{
-//                        mainlayout.setVisibility(LinearLayout.GONE);
-//                        bookBtn.setVisibility(View.GONE);
-//                    }
-//                }
+
 
                 if(result != null){
                     jsonResponse = new JSONObject(result);
@@ -249,19 +233,7 @@ public class RiderHomeScreen extends AppCompatActivity implements View.OnClickLi
                     if(statusCode == 200){
                         showNextPage();
                     }
-//                    String responseBody = jsonResponse.getString("body");
-//
-//                    JSONObject bodyJson = new JSONObject(responseBody);
-//                    //String driverId = bodyJson.getJSONObject("DriverId").getString("S");
-//                    Boolean driverStatus = bodyJson.getJSONObject("Status").getBoolean("BOOL");
-//                    stView.setText(driverStatus.toString());
-//                    if(driverStatus){
-//                        bookBtn.setVisibility(View.VISIBLE);
-//                        mainlayout.setVisibility(LinearLayout.VISIBLE);
-//                    }else{
-//                        mainlayout.setVisibility(LinearLayout.GONE);
-//                        bookBtn.setVisibility(View.GONE);
-//                    }
+
                 }
 
             } catch (Exception e) {
